@@ -17,6 +17,9 @@ import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.nio.charset.StandardCharsets;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.List;
@@ -28,9 +31,8 @@ import org.talend.dataquality.statistics.datetime.SystemDateTimePatternManager;
 /**
  * Generator of date format groups to improve the performance.
  * Before, we have to try over all regex patterns in order to find out all possible matches.
- * Now, We made exlusive groups of patterns, and we just need to go over by group, and stops at the group where at least
- * one of
- * regexes matches the data.
+ * Now, We made exclusive groups of patterns, and we just need to go over by group,
+ * and stops at the group where at least one of regexes matches the data.
  */
 public class FormatGroupGenerator {
 
@@ -144,11 +146,11 @@ public class FormatGroupGenerator {
         Map<String, List<DateTimeFormatCode>> formatGroupMap = new LinkedHashMap<String, List<DateTimeFormatCode>>();
 
         for (DateTimeFormatCode fc : formatCodes) {
-            String aggreratedCode = fc.dateSeparator + fc.timeSeparator + fc.code;
-            List<DateTimeFormatCode> formatCodeSet = formatGroupMap.get(aggreratedCode);
+            String aggregatedCode = fc.dateSeparator + fc.timeSeparator + fc.code;
+            List<DateTimeFormatCode> formatCodeSet = formatGroupMap.get(aggregatedCode);
             if (formatCodeSet == null) {
                 formatCodeSet = new ArrayList<DateTimeFormatCode>();
-                formatGroupMap.put(aggreratedCode, formatCodeSet);
+                formatGroupMap.put(aggregatedCode, formatCodeSet);
             }
             formatCodeSet.add(fc);
         }
@@ -195,7 +197,7 @@ public class FormatGroupGenerator {
                 .getPath();
         String samplingPath = samplingParent + pathSeparator
                 + "../data-quality-ee/dataquality-datamasking/src/main/resources/org/talend/dataquality/datamasking/semantic/DateRegexesGrouped.txt"; //$NON-NLS-1$
-        IOUtils.write(sb.toString(), new FileOutputStream(new File(samplingPath)));
+        Files.write(Paths.get(samplingPath), sb.toString().getBytes(StandardCharsets.UTF_8));
     }
 }
 

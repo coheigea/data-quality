@@ -6,7 +6,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 ### Added
-N/A
+- feat(TDQ-18441): support 8 additional ISO-8601 datetime patterns and 24 additional time patterns
 ### Changed
 N/A
 ### Removed
