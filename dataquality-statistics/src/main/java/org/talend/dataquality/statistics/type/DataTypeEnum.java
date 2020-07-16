@@ -15,6 +15,8 @@ package org.talend.dataquality.statistics.type;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import java.util.Comparator;
+
 /**
  * created by talend on 2015-07-28 Detailled comment.
  *
@@ -26,7 +28,8 @@ public enum DataTypeEnum {
     STRING,
     DATE,
     TIME,
-    EMPTY;
+    EMPTY,
+    NULL;
 
     private static final Logger LOGGER = LoggerFactory.getLogger(DataTypeEnum.class);
 
@@ -38,4 +41,24 @@ public enum DataTypeEnum {
             return DataTypeEnum.STRING;
         }
     }
+
+    public static Comparator<DataTypeEnum> dataTypeEnumComparator = new Comparator<DataTypeEnum>() {
+
+        @Override
+        public int compare(DataTypeEnum dataTypeEnum, DataTypeEnum t1) {
+            if (t1.equals(EMPTY)) {
+                if (dataTypeEnum.equals(EMPTY)) {
+                    return 0;
+                } else {
+                    return 1;
+                }
+            } else {
+                if (dataTypeEnum.equals(EMPTY)) {
+                    return -1;
+                } else {
+                    return 0;
+                }
+            }
+        }
+    };
 }
